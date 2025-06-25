@@ -1,0 +1,41 @@
+﻿@model List<RandevuSistemi.Models.AdminSiniflar.Comments>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Yorumlar Sayfası</h1>
+
+<div class="container">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Açıklama</th>
+                <th>Ad - Soyad</th>
+                <th>Yorum</th>
+                @* <th>Görsel</th> *@
+                <th>Ünvan</th>
+                <th>Güncelle</th>
+                <th>Sil</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.CommentsID</td>
+                    <td>@item.Description1</td>
+                    <td>@item.COmmentsName</td>
+                    <td>@item.Description2</td>
+                    @* <td>@item.ImageUrl</td> *@
+                    <td>@item.Title</td>
+                    <td><a href="/Comments/UpdateComments/@item.CommentsID" class="btn btn-success">Güncelle</a></td>
+                    <td><a href="/Comments/DeleteCOmments/@item.CommentsID" class="btn btn-danger">Sil</a></td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a href="/Comments/CreateComments/" class="btn btn-dark">Ekle</a>
+</div>

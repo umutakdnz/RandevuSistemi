@@ -1,0 +1,32 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+@await Html.PartialAsync("~/Views/BarberLayout/PartialHead.cshtml")
+<body>
+    <div class="container-scroller">
+ 
+        @await Html.PartialAsync("~/Views/BarberLayout/PartialNavbar.cshtml")
+
+        <div class="container-fluid page-body-wrapper">
+        
+            @await Html.PartialAsync("~/Views/BarberLayout/PartialSidebar.cshtml")
+            @RenderSection("Styles", required: false)
+
+            <div class="main-panel">
+                @RenderBody()
+            </div>
+
+        </div>
+       
+    </div>
+    @await Html.PartialAsync("~/Views/Barberlayout/PartialScript.cshtml")
+</body>
+
+</html>
+
+

@@ -1,0 +1,47 @@
+﻿@model List<RandevuSistemi.Models.AdminSiniflar.About>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Hakkımızda Sayfası</h1>
+
+<div class=" contanier">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Resim Linki</th>
+                <th>Başlık</th>
+                <th>Açıklama</th>
+                <th>Kuruluş Yılı</th>
+                <th>Adres</th>
+                <th>Telefon Numarası</th>
+                <th>Email</th>
+                <th>Personel Sayısı</th>
+                <th>Güncelle</th>
+                <th>Sil</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@item.AboutID</td>
+                    <td>@item.ImgUrl</td>
+                    <td>@item.Title</td>
+                    <td>@item.Description</td>
+                    <td>@item.FoundedYear</td>
+                    <td>@item.Address</td>
+                    <td>@item.Phone</td>
+                    <td>@item.Email</td>
+                    <td>@item.Person</td>
+                    <td><a href="/About/UpdateAbout/@item.AboutID" class="btn btn-success">Güncelle</a></td>
+                    <td><a href="/About/DeleteAbout/@item.AboutID" class="btn btn-danger">Sil</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a href="/About/CreateAbout/" class="btn btn-dark">Ekle</a>
+</div>
+

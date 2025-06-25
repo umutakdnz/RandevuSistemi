@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "CreatePrice";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Fiyat Ekleme Sayfası</h1>
+
+<form method="post">
+    <label>Hizmet Adı</label>
+    <input type="text" class="form-control" name=">PriceName" /> <br />
+    <label>Açıklama</label>
+    <input type="text" class="form-control" name=">Description" /> <br />
+    <label>Link</label>
+    <input type="text" class="form-control" name=">PriceLink" /> <br />
+    <label>Görsel</label>
+    <input type="text" class="form-control" name=">ImageUrl" /> <br />
+    <label>Kategori ID</label>
+    <input type="text" class="form-control" name=">CategoryID" /> <br />
+    <button class="btn btn-success">Ekle</button>
+</form>

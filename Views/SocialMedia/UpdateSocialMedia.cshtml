@@ -1,0 +1,16 @@
+﻿@model RandevuSistemi.Models.AdminSiniflar.SocialMedia
+@{
+    ViewData["Title"] = "UpdateSocialMEdia";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Sosyal Medya Güncelleme</h1>
+
+<form method="post">
+    @Html.HiddenFor(x => x.SocialMediaID)
+    <label>Sosyal Medya Uygulaması</label>
+    @Html.TextBoxFor(x => x.SocialName, new { @class = "form-control" }) <br />
+    <label>Sosyal Medya Linki</label>
+    @Html.TextBoxFor(x => x.SocialLink, new { @class = "form-control" }) <br />
+    <button class="btn btn-success">Güncelle</button>
+</form>

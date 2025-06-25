@@ -1,0 +1,16 @@
+﻿@model RandevuSistemi.Models.AdminSiniflar.Hairdresser
+@{
+    ViewData["Title"] = "UpdateHairdresser";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Kuaför Güncelleme Sayfası</h1>
+
+<form method="post">
+    @Html.HiddenFor(x => x.HairdresserID)
+    <label>Ad - Soyad</label>
+    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" }) <br />
+    <label>Telefon Numarası</label>
+    @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" }) <br />
+    <button class="btn btn-success">Güncelle</button>
+</form>

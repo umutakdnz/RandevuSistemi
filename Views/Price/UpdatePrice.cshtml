@@ -1,0 +1,20 @@
+﻿@model RandevuSistemi.Models.AdminSiniflar.Price
+@{
+    ViewData["Title"] = "UpdatePrice";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Fiyat Güncelleme Sayfası</h1>
+
+<form method="post">
+    @Html.HiddenFor(x => x.PriceID)
+    <label>Hizmet Adı</label>
+    @Html.TextBoxFor(x => x.PriceName, new { @class = "form-control" }) <br />
+    <label>Açıklama</label>
+    @Html.TextBoxFor(x => x.Description, new { @class = "form-control" }) <br />
+    <label>Görsel</label>
+    @Html.TextBoxFor(x => x.Image1, new { @class = "form-control" }) <br />
+    <label>Kategori ID</label>
+    @Html.TextBoxFor(x => x.CategoryID, new { @class = "form-control" }) <br />
+    <button class="btn btn-success">Güncelle</button>
+</form>

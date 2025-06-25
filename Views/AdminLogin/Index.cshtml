@@ -1,0 +1,426 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berber Admin Paneli - Giriş</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+            body::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="barber" patternUnits="userSpaceOnUse" width="20" height="20"><rect width="20" height="20" fill="rgba(255,255,255,0.02)"/><path d="M0 0l20 20M20 0L0 20" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23barber)"/></svg>');
+                animation: backgroundMove 20s linear infinite;
+            }
+
+        @@keyframes backgroundMove {
+            0%
+
+        {
+            transform: translateX(0) translateY(0);
+        }
+
+        100% {
+            transform: translateX(20px) translateY(20px);
+        }
+
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            z-index: 1;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @@keyframes slideIn {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @@keyframes pulse {
+            0%, 100%
+
+        {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 8px;
+                color: #333;
+                font-weight: 500;
+                font-size: 14px;
+            }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+            .form-control:focus {
+                outline: none;
+                border-color: #667eea;
+                background: white;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            }
+
+        .input-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .form-control:focus + .input-icon {
+            color: #667eea;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            cursor: pointer;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+            .password-toggle:hover {
+                color: #667eea;
+            }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .login-btn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+                transition: left 0.5s;
+            }
+
+            .login-btn:hover::before {
+                left: 100%;
+            }
+
+            .login-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            }
+
+            .login-btn:active {
+                transform: translateY(0);
+            }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #f56565;
+            font-size: 14px;
+            animation: shake 0.5s ease-in-out;
+            display: none;
+        }
+
+            .error-message.show {
+                display: block;
+            }
+
+        @@keyframes shake {
+            0%, 100%
+
+        {
+            transform: translateX(0);
+        }
+
+        25% {
+            transform: translateX(-5px);
+        }
+
+        75% {
+            transform: translateX(5px);
+        }
+
+        }
+
+        .remember-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .remember-me input[type="checkbox"] {
+                width: 16px;
+                height: 16px;
+                accent-color: #667eea;
+            }
+
+        .forgot-password {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+            .forgot-password:hover {
+                color: #764ba2;
+            }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 12px;
+        }
+
+        @@media (max-width: 480px) {
+            .login-container
+
+        {
+            margin: 20px;
+            padding: 30px 25px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-section">
+            <div class="logo-icon">
+                <i class="fas fa-cut"></i>
+            </div>
+            <div class="logo-text">Berber Admin</div>
+            <div class="subtitle">Yönetim Paneli</div>
+        </div>
+
+        <form id="loginForm" method="post">
+            <div class="form-group">
+                <label for="username">Kullanıcı Adı</label>
+                <div class="input-wrapper">
+                    <input type="text" id="username" name="username" class="form-control" required>
+                    <i class="fas fa-user input-icon"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Şifre</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" name="password" class="form-control" required>
+                    <i class="fas fa-lock input-icon"></i>
+                    <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                </div>
+            </div>
+
+            <div class="remember-section">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Beni Hatırla</label>
+                </div>
+                <a href="#" class="forgot-password">Şifre Unuttum?</a>
+            </div>
+
+            <button type="submit" class="login-btn">
+                <i class="fas fa-sign-in-alt"></i> Giriş Yap
+            </button>
+
+            <div class="error-message" id="errorMessage">
+                @if (!string.IsNullOrEmpty(ViewBag.Error))
+                {
+                    <span>@ViewBag.Error</span>
+                }
+            </div>
+        </form>
+
+        <div class="footer-text">
+            © 2025 Enes Baykurt Hair Design. Tüm hakları saklıdır.
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordField = document.getElementById('password');
+            const toggleIcon = this;
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (!username || !password) {
+                e.preventDefault();
+                errorMessage.innerHTML = '<span>Lütfen tüm alanları doldurun.</span>';
+                errorMessage.classList.add('show');
+                errorMessage.style.animation = 'none';
+                errorMessage.offsetHeight; 
+                errorMessage.style.animation = 'shake 0.5s ease-in-out';
+
+                setTimeout(() => {
+                    errorMessage.classList.remove('show');
+                }, 4000);
+            }
+        });
+
+        window.addEventListener('load', function() {
+            const errorMessage = document.getElementById('errorMessage');
+            const errorContent = errorMessage.querySelector('span');
+
+            if (errorContent && errorContent.textContent.trim() !== '') {
+                errorMessage.classList.add('show');
+                errorMessage.style.animation = 'shake 0.5s ease-in-out';
+
+                setTimeout(() => {
+                    errorMessage.style.opacity = '0';
+                    errorMessage.style.transition = 'opacity 0.5s ease-out';
+                    setTimeout(() => {
+                        errorMessage.classList.remove('show');
+                        errorMessage.style.opacity = '1';
+                        errorMessage.style.transition = '';
+                    }, 500);
+                }, 5000);
+            }
+        });
+
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

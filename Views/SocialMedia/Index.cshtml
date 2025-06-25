@@ -1,0 +1,37 @@
+﻿@model List<RandevuSistemi.Models.AdminSiniflar.SocialMedia>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Sosyal Medya Sayfası</h1>
+
+<div class="container">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Sosyal Medya Uygulaması</th>
+                <th>Sosyal Medya Linki</th>
+                <th>Güncelle</th>
+                <th>Sil</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.SocialMediaID</td>
+                    <td>@item.SocialName</td>
+                    <td>@item.SocialLink</td>
+                    <td><a href="/SocialMedia/UpdateSocialMedia/@item.SocialMediaID" class="btn btn-success">Güncelle</a></td>
+                    <td><a href="/SocialMedia/DeleteSocialMedia/@item.SocialMediaID" class="btn btn-danger">Sil</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a href="/SocialMedia/CreateSocialMedia/" class="btn btn-dark">Ekle</a>
+
+</div>

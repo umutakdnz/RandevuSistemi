@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "CreateHomePage";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Anasayfa Bilgi Ekleme Sayfası</h1>
+
+<form method="post">
+    <label>Başlık</label>
+    <input type="text" class="form-control" name="NameSurname" /> <br />
+    <label>Açıklama</label>
+    <input type="text" class="form-control" name="Description" /> <br />
+    <label>Görsel</label>
+    <input type="text" class="form-control" name="ImageUrl" /> <br />
+    <button class="btn btn-success">Ekle</button>
+</form>

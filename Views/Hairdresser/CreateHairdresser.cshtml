@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "CreateHairdresser";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Kuaför Ekleme Sayfası</h1>
+
+<form method="post">
+    <label>Barber ID</label>
+    <input type="text" class="form-control" name="BarberID" /> <br />
+    <label>Ad - Soyad</label>
+    <input type="text" class="form-control" name="Name" /> <br />
+    <label>Telefon Numarası</label>
+    <input type="text" class="form-control" name="Phone" /> <br />
+    <label>Email</label>
+    <input type="text" class="form-control" name="Email" /> <br />
+    <label>Kullanıcı Adı</label>
+    <input type="text" class="form-control" name="Role" /> <br />
+    <label>Şifre</label>
+    <input type="text" class="form-control" name="Password" /> <br />
+    <button class="btn btn-success">Ekle</button>
+</form>

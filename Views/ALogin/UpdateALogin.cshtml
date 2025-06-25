@@ -1,0 +1,25 @@
+﻿@model RandevuSistemi.Models.AdminSiniflar.AdminLogin
+@{
+    ViewData["Title"] = "UpdateALogin";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h2 class="card-title mb-4 text-center">Giriş Bilgilerini Güncelle</h2>
+
+<form method="post">
+    @Html.HiddenFor(a => a.ID)
+
+    <div class="mb-3">
+        <label for="Title" class="form-label">Kullanıcı Adı</label>
+        @Html.TextBoxFor(x => x.username, new { @class = "form-control", @placeholder = "Kullanıcı adını güncelleyin" })
+    </div>
+
+    <div class="mb-3">
+        <label for="Title" class="form-label">Şifre</label>
+        @Html.TextBoxFor(x => x.password, new { @class = "form-control", @placeholder = "Şifreyi güncelleyin" })
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success px-4">Güncelle</button>
+    </div>
+</form>

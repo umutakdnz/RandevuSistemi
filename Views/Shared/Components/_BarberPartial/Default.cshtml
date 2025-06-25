@@ -1,0 +1,19 @@
+﻿@model List<RandevuSistemi.Models.AdminSiniflar.Barber>
+
+<div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+    <h3 class="resume-title">Uzman Kadromuz</h3>
+
+    @foreach (var item in Model)
+    {
+        <div class="resume-item">
+            <h4>@item.BarberName</h4>
+            <p><em>@item.BarberDescription</em></p>
+            <ul>
+                <li>@item.Expertise</li>
+                <li>@item.BarberNumber</li>
+            </ul>
+        </div>
+    }
+
+</div>
+

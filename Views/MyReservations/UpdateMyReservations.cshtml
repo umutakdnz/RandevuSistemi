@@ -1,0 +1,261 @@
+﻿@model RandevuSistemi.Models.AdminSiniflar.Reserved
+@{
+    ViewData["Title"] = "UpdateMyReservations";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+<div class="randevu-wrapper">
+    <div class="randevu-container">
+        <div class="header-container">
+            <h2>Randevu Güncelle</h2>
+            <a href="/MyReservations/Index" class="back-button">
+                <i class="fa fa-arrow-left"></i> Randevularıma Dön
+            </a>
+        </div>
+
+        <form asp-action="UpdateMyReservations" method="post">
+            <input type="hidden" name="ReservedID" value="@Model.ReservedID" />
+
+            <div class="form-group">
+                <label>Tarih ve Saat</label>
+                <div class="datetime-container">
+                    <div class="datetime-wrapper">
+                        <input type="date" name="Date" class="custom-date-input" value="@Model.Date.ToString()" required />
+                    </div>
+                    <div class="datetime-wrapper">
+                        <input type="time" name="Time" class="custom-time-input" value="@Model.Time" required />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Açıklama</label>
+                <textarea name="Description" oninput="this.style.height=''; this.style.height=this.scrollHeight + 'px'">@Model.Description</textarea>
+            </div>
+
+            <div>
+                <button type="submit" class="submit-button">Güncelle</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Ana değişkenler */
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #6a5acd;
+            --text-color: #2c3e50;
+            --background-color: #f4f7f6;
+            --card-background: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--background-color) 0%, #ffffff 100%);
+            color: var(--text-color);
+        }
+
+        .randevu-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .randevu-container {
+            width: 100%;
+            max-width: 900px;
+            background-color: var(--card-background);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            /* Hover hareketini kaldırdık */
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .randevu-container h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            position: relative;
+            margin: 0;
+        }
+
+            .randevu-container h2::after {
+                content: '';
+                position: absolute;
+                bottom: -10px;
+                left: 0;
+                width: 80px;
+                height: 4px;
+                background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+                border-radius: 2px;
+            }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 16px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+            .back-button:hover {
+                background-color: #e5e9e8;
+                transform: translateY(-2px);
+            }
+
+            .back-button i {
+                margin-right: 8px;
+            }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+            .form-group label {
+                display: block;
+                font-weight: 600;
+                color: var(--text-color);
+                margin-bottom: 0.5rem;
+            }
+
+        .name-phone-container,
+        .datetime-container {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .name-phone-wrapper,
+        .datetime-wrapper {
+            flex: 1;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e7ff;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: #f9fafb;
+        }
+
+            input:focus,
+            select:focus,
+            textarea:focus {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+            }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .cancel-button {
+            flex: 1;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-color);
+            background-color: #f1f5f9;
+            border: 2px solid #e0e7ff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+            .cancel-button:hover {
+                background-color: #e5e9e8;
+            }
+
+        .submit-button {
+            flex: 2;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(74, 144, 226, 0.2);
+        }
+
+            .submit-button:hover {
+                box-shadow: 0 12px 25px rgba(74, 144, 226, 0.3);
+            }
+
+        textarea {
+            resize: vertical;
+            min-height: 35px;
+        }
+
+        @@media (max-width: 768px) {
+            .randevu-container
+
+        {
+            padding: 2rem;
+            margin: 1rem;
+        }
+
+        .randevu-container h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .header-container {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .back-button {
+            align-self: flex-start;
+        }
+
+        .name-phone-container,
+        .datetime-container {
+            flex-direction: column;
+        }
+
+        .button-group {
+            flex-direction: column;
+        }
+
+        }
+    </style>
+}

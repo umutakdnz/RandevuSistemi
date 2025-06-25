@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_UILayout.cshtml";
+}
+
+
+<main class="main">
+
+    @await Component.InvokeAsync("_HomePagePartial")
+    
+    @await Component.InvokeAsync("_AboutPartial")
+
+    <section id="resume" class="resume section light-background">
+            
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Kadromuz & Kampanyalar</h2>
+            <p>Enes Baykurt Hair Design’da stilinize değer katan deneyimli ekibimiz ve size özel avantajlarla dolu kampanya paketlerimizle tanışın. Uzman kadromuzun profesyonelliğiyle kendinizi güvende hissedin, bakımınızı ayrıcalıklı fırsatlarla tamamlayın.</p>
+        </div>
+
+        <div class="container">
+
+            <div class="row">
+
+                @await Component.InvokeAsync("_BarberPartial")
+
+                @await Component.InvokeAsync("_CampaignsPartial")
+
+            </div>
+
+        </div>
+
+    </section>
+    
+    @await Component.InvokeAsync("_ServicesPartial")
+    
+    @await Component.InvokeAsync("_PricePartial")
+    
+    @await Component.InvokeAsync("_CommentsPartial")
+    
+    @await Component.InvokeAsync("_ContactPartial")
+    
+</main>

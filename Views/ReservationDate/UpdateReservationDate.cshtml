@@ -1,0 +1,189 @@
+﻿@model RandevuSistemi.Models.AdminSiniflar.ReservationDate
+@{
+    ViewData["Title"] = "UpdateReservationDate";
+    Layout = "~/Views/BarberLayout/Index.cshtml";
+}
+
+<div class="page-header">
+    <h1 class="page-title">Randevu Günü Güncelle</h1>
+</div>
+
+<div class="container">
+    <div class="form-card">
+        <form id="appointmentForm" method="post">
+            @Html.HiddenFor(x => x.ReservationDateID)
+
+            <div class="form-group">
+                <label class="form-label">Saat Durumu</label>
+                @Html.DropDownListFor(x => x.IsAvailable, new List<SelectListItem> {
+                new SelectListItem { Text = "Uygun", Value = "true", Selected = Model.IsAvailable },
+                new SelectListItem { Text = "Dolu", Value = "false", Selected = !Model.IsAvailable }
+                }, new { @class = "form-control modern-input" })
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">Güncelle</button>
+                <a href="/ReservationDate/" class="btn-cancel">İptal</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("appointmentForm");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Tarih durumu güncellendi!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            setTimeout(() => {
+                form.submit();
+            }, 1500);
+        });
+    });
+</script>
+
+<style>
+    .page-header {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .page-title {
+        color: white;
+        font-size: 2.2rem;
+        font-weight: 300;
+        text-align: center;
+        margin: 0;
+        letter-spacing: 1px;
+    }
+
+    .form-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        padding: 2.5rem;
+        border: 1px solid #e9ecef;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #1a1a1a;
+        font-weight: 500;
+        font-size: 0.95rem;
+        letter-spacing: 0.3px;
+    }
+
+    .modern-input {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        color: #333;
+        background-color: #fff;
+        transition: all 0.2s ease;
+    }
+
+        .modern-input:focus {
+            outline: none;
+            border-color: #2d2d2d;
+            box-shadow: 0 0 0 0.2rem rgba(45, 45, 45, 0.1);
+            background-color: #fafafa;
+        }
+
+        .modern-input::placeholder {
+            color: #999;
+            font-style: italic;
+        }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .btn-submit {
+        background: #1a1a1a;
+        color: white;
+        padding: 0.8rem 2.5rem;
+        border-radius: 6px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.2s ease;
+        font-size: 1rem;
+        border: 1px solid #1a1a1a;
+        cursor: pointer;
+    }
+
+        .btn-submit:hover {
+            background: #2d2d2d;
+            border-color: #2d2d2d;
+            color: white;
+            text-decoration: none;
+        }
+
+    .btn-cancel {
+        background: transparent;
+        color: #6c757d;
+        padding: 0.8rem 2.5rem;
+        border-radius: 6px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.2s ease;
+        font-size: 1rem;
+        border: 1px solid #6c757d;
+    }
+
+        .btn-cancel:hover {
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+        }
+
+    @@media (max-width: 768px) {
+        .page-title {
+            font-size: 1.8rem;
+        }
+
+        .form-card {
+            padding: 1.5rem;
+            margin: 0 1rem;
+        }
+
+        .form-actions {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .btn-submit,
+        .btn-cancel {
+            padding: 0.7rem 2rem;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+    }
+</style>

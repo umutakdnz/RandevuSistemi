@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewData["Title"] = "CreateAbout";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Hakkımda Ekleme Sayfası</h1>
+
+<form method="post">
+    <label>Resim Linki</label>
+    <input type="text" class="form-control" name="Imgurl" /> <br />
+    <label>Başlık</label>
+    <input type="text" class="form-control" name="Title" /> <br />
+    <label>Açıklama</label>
+    <input type="text" class="form-control" name="Discription" /> <br />
+    <label>Kuruluş Yılı</label>
+    <input type="text" class="form-control" name="FoundedYear" /> <br />
+    <label>Adres</label>
+    <input type="text" class="form-control" name="Adress" /> <br />
+    <label>Telefon Numarası</label>
+    <input type="text" class="form-control" name="Phone" /> <br />
+    <label>Email</label>
+    <input type="text" class="form-control" name="Email" /> <br />
+    <label>Personel Sayısı</label>
+    <input type="text" class="form-control" name="Person" /> <br />
+    <button class="btn btn-success">Ekle</button>
+</form>

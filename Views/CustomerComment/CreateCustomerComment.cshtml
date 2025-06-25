@@ -1,0 +1,228 @@
+﻿
+@{
+    ViewData["Title"] = "CreateCustomerComment";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2 class="fw-bold text-dark mb-0">Yeni Yorum Ekle</h2>
+            <p class="text-muted">Berberler hakkında düşüncelerinizi paylaşın.</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="/CustomerComment/Index" class="btn btn-outline-secondary px-4 rounded-pill shadow-sm">
+                <i class="fa fa-arrow-left me-2"></i>Yorumlara Dön
+            </a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-body p-4">
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="CustomerName" class="form-label fw-medium text-dark mb-2">Ad - Soyad</label>
+                        <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                            <span class="input-group-text bg-light border-0">
+                                <i class="fa fa-user text-muted"></i>
+                            </span>
+                            <input type="text" class="form-control border-0 ps-0" id="CustomerName" name="CustomerName" placeholder="Ad ve soyadınızı girin">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="BarberID" class="form-label fw-medium text-dark mb-2">Hakkında yorum yapmak istediğiniz berberi seçin</label>
+                        <div class="custom-select-container shadow-sm rounded-3">
+                            <div class="custom-select-icon">
+                                <i class="fa fa-cut text-muted"></i>
+                            </div>
+                            <select class="form-select custom-select border-0" id="BarberID" name="BarberID" required>
+                                <option value="" disabled selected>Berber seçiniz</option>
+                                @foreach (var barber in (SelectList)ViewBag.BarberList)
+                                {
+                                    <option value="@barber.Value">@barber.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="Description" class="form-label fw-medium text-dark mb-2">Yorumunuz</label>
+                    <div class="shadow-sm rounded-3 overflow-hidden">
+                        <div class="input-group border-0">
+                            <span class="input-group-text bg-light border-0 align-items-start pt-3">
+                                <i class="fa fa-comment text-muted"></i>
+                            </span>
+                            <textarea class="form-control border-0 ps-0" id="Description" name="Description" rows="5" placeholder="Berber hakkındaki düşüncelerinizi paylaşın..."></textarea>
+                        </div>
+                    </div>
+                    <div class="form-text text-end mt-1"><span id="charCount">0</span>/500 karakter</div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="confirmCheck" required>
+                        <label class="form-check-label text-muted" for="confirmCheck">
+                            Yorumun tarafıma ait olduğunu onaylıyorum
+                        </label>
+                    </div>
+                    <div>
+                        <button type="reset" class="btn btn-light px-3 me-2">Temizle</button>
+                        <button type="submit" class="btn btn-info px-4 rounded-pill shadow-sm">
+                            <i class="fa fa-save me-2"></i>Yorumu Kaydet
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control:focus, .form-select:focus {
+        box-shadow: none;
+        border-color: #ced4da;
+    }
+
+    .input-group-text {
+        font-size: 0.9rem;
+    }
+
+    .custom-select-container {
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        position: relative;
+        height: 58px;
+    }
+
+    .custom-select-icon {
+        padding: 0.6rem 1rem;
+        font-size: 1rem;
+        background-color: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .custom-select {
+        flex: 1;
+        border-radius: 0;
+        height: 100%;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236c757d' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 12px;
+        padding-right: 2.5rem;
+        cursor: pointer;
+    }
+
+        .custom-select:focus {
+            outline: none;
+        }
+
+    .custom-select-container:focus-within {
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+    }
+
+    .custom-select-container:hover {
+        box-shadow: 0 0 0.15rem rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .input-group.shadow-sm:hover {
+        box-shadow: 0 0 0.15rem rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .input-group.shadow-sm:focus-within {
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+    }
+
+    .form-check-input:checked {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+
+    .form-check-input:focus {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    
+        const textarea = document.getElementById('Description');
+        const charCount = document.getElementById('charCount');
+
+        textarea.addEventListener('input', function() {
+            const length = this.value.length;
+            charCount.textContent = length;
+
+            if (length > 500) {
+                charCount.classList.add('text-danger');
+                charCount.classList.add('fw-bold');
+                textarea.classList.add('border-danger');
+            } else {
+                charCount.classList.remove('text-danger');
+                charCount.classList.remove('fw-bold');
+                textarea.classList.remove('border-danger');
+            }
+        });
+
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(event) {
+            const textarea = document.getElementById('Description');
+            const confirmCheck = document.getElementById('confirmCheck');
+            const barberID = document.getElementById('BarberID');
+            const customerName = document.getElementById('CustomerName');
+
+            if (!confirmCheck.checked) {
+                event.preventDefault();
+                alert('Lütfen yorum onay kutucuğunu işaretleyin.');
+                return;
+            }
+
+            if (textarea.value.length > 500) {
+                event.preventDefault();
+                alert('Yorum 500 karakterden uzun olamaz.');
+                return;
+            }
+
+            if (textarea.value.trim() === '') {
+                event.preventDefault();
+                alert('Lütfen bir yorum yazın.');
+                textarea.focus();
+                return;
+            }
+
+            if (barberID.value === '') {
+                event.preventDefault();
+                alert('Lütfen bir berber seçin.');
+                barberID.focus();
+                return;
+            }
+
+            if (customerName.value.trim() === '') {
+                event.preventDefault();
+                alert('Lütfen adınızı ve soyadınızı girin.');
+                customerName.focus();
+                return;
+            }
+        });
+
+        // Form temizleme onayı
+        const resetButton = document.querySelector('button[type="reset"]');
+        resetButton.addEventListener('click', function(event) {
+            if (!confirm('Formu temizlemek istediğinize emin misiniz?')) {
+                event.preventDefault();
+            } else {
+                charCount.textContent = '0';
+            }
+        });
+    });
+</script>

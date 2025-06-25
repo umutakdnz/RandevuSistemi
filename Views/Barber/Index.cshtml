@@ -1,0 +1,38 @@
+﻿@model List<RandevuSistemi.Models.AdminSiniflar.Barber>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Kuaför Sayfası</h1>
+
+<div class="container">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Kuaför İsim - Soyad</th>
+                <th>Telefon Numarası</th>
+                <th>Açıklama</th>
+                <th>Alan</th>
+                <th>Güncelle</th>
+                <th>Sil</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.BarberId</td>
+                    <td>@item.BarberName</td>
+                    <td>@item.BarberNumber</td>
+                    <td>@item.BarberDescription</td>
+                    <td>@item.Expertise</td>
+                    <td><a href="/Barber/UpdateBarber/@item.BarberId" class="btn btn-success">Güncelle</a></td>
+                    <td><a href="/Barber/DeleteBarber/@item.BarberId" class="btn btn-danger">Sil</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a href="/Barber/CreateBarber/" class="btn btn-dark">Ekle</a>
+</div>

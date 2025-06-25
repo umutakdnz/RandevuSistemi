@@ -1,0 +1,20 @@
+﻿@model RandevuSistemi.Models.AdminSiniflar.Barber
+@{
+    ViewData["Title"] = "UpdateBarber";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Kuaför Güncelleme Sayfası</h1>
+
+<form method="post">
+    @Html.HiddenFor(x => x.BarberId)
+    <label>Kuaför İsim - Soyad</label>
+    @Html.TextBoxFor(x => x.BarberName, new { @class = "form-control" }) <br />
+    <label>Telefon Numarası</label>
+    @Html.TextBoxFor(x => x.BarberNumber, new { @class = "form-control" }) <br />
+    <label>Açıklama</label>
+    @Html.TextBoxFor(x => x.BarberDescription, new { @class = "form-control" }) <br />
+    <label>Alan</label>
+    @Html.TextBoxFor(x => x.Expertise, new { @class = "form-control" }) <br />
+    <button class="btn btn-success">Güncelle</button>
+</form>

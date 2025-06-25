@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "CreateBarber";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Kuaför Ekleme Sayfası</h1>
+
+<form method="post">
+    <label>Kuaför İsim - Soyad</label>
+    <input type="text" class="form-control" name="BarberName" /> <br />
+    <label>Telefon Numarası</label>
+    <input type="text" class="form-control" name="BarberNumber" /> <br />
+    <label>Açıklama</label>
+    <input type="text" class="form-control" name="BarberDescription" /> <br />
+    <label>Alan</label>
+    <input type="text" class="form-control" name="Expertise" /> <br />
+    <button class="btn btn-success">Ekle</button>
+</form>

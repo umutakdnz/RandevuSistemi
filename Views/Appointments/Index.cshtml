@@ -1,0 +1,232 @@
+﻿@model List<RandevuSistemi.Models.AdminSiniflar.Reserved>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/BarberLayout/Index.cshtml";
+
+    var today = DateTime.Today;
+    var groupedAppointments = Model
+        .Where(r => r.ReservationDate.Date >= today)
+        .OrderBy(r => r.ReservationDate)
+        .GroupBy(r => r.ReservationDate.Date)
+        .ToList();
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white py-3">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h4 class="mb-0">
+                                <i class="fas fa-calendar-alt me-2"></i>
+                                Randevu Listesi
+                            </h4>
+                        </div>
+                        <div class="col-auto">
+                            <span class="badge bg-light text-dark fs-6 me-2">
+                                Bugün: @DateTime.Now.ToString("dd.MM.yyyy")
+                            </span>
+                            <span class="badge bg-light text-dark fs-6">
+                                Toplam: @Model.Count(r => r.ReservationDate >= today) Randevu
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    @if (groupedAppointments.Any())
+                    {
+                        <div class="table-responsive">
+                            @foreach (var group in groupedAppointments)
+                            {
+                                <div class="table-group-title bg-light px-4 py-2 border-top border-bottom mt-4">
+                                    <h5 class="mb-0 text-primary">
+                                        <i class="fas fa-calendar-day me-2"></i>
+                                        @(group.Key.ToString("dd.MM.yyyy")) Tarihli Randevular
+                                    </h5>
+                                </div>
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Ad Soyad</th>
+                                            <th>Telefon</th>
+                                            <th>Tarih</th>
+                                            <th>Saat</th>
+                                            <th>Berber</th>
+                                            <th>Açıklama</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in group.OrderBy(x => x.ReservationHours.TimeSlot)   )
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <div class="icon-with-name">
+                                                        <i class="fas fa-user-circle me-2"></i>
+                                                        @item.NameSurname
+                                                    </div>
+                                                </td>
+                                                <td>@item.PhoneNo</td>
+                                                <td>
+                                                    <span class="date-badge">
+                                                        @item.ReservationDate.ToString("dd.MM.yyyy")
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    <span class="time-badge">
+                                                        @(item.ReservationHours?.TimeSlot.ToString(@"hh\:mm") ?? "Saat bilgisi yok")
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    <div>@item.Barber.BarberName</div>
+                                                    <small class="text-muted">ID: @item.Barber.BarberId</small>
+                                                </td>
+                                                <td>
+                                                    @if (!string.IsNullOrEmpty(item.Description))
+                                                    {
+                                                        <div class="text-truncate" style="max-width: 200px;"
+                                                             data-bs-toggle="tooltip"
+                                                             data-bs-placement="top"
+                                                             title="@item.Description">
+                                                            @item.Description
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-muted fst-italic">Açıklama yok</span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <div class="mb-4">
+                                <i class="fas fa-calendar-times text-muted" style="font-size: 4rem;"></i>
+                            </div>
+                            <h5 class="text-muted mb-2">Henüz randevu bulunmuyor</h5>
+                            <p class="text-muted">Bugünden itibaren herhangi bir randevu kaydı yok.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #111 0%, #333 100%);
+    }
+
+    .table-group-title {
+        margin-top: 1.5rem;
+        border-radius: 8px;
+    }
+
+    .table td, .table th {
+        vertical-align: middle !important;
+        padding: 0.75rem 1rem;
+    }
+
+    .profile-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+    }
+
+    .date-badge, .time-badge {
+        font-weight: 600;
+        border-radius: 0.5rem;
+        padding: 0.4rem 0.6rem;
+    }
+
+    .date-badge {
+        background-color: #f0f4f8;
+        color: #007bff;
+    }
+
+    .time-badge {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .table-group-title h5 {
+        font-size: 1.15rem;
+        font-weight: 600;
+    }
+
+    .table-responsive {
+        margin-bottom: 1.5rem;
+    }
+
+    .icon-with-name {
+        display: flex;
+        align-items: center;
+    }
+
+        .icon-with-name i {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+
+    .badge {
+        font-size: 0.75rem;
+        font-weight: 500;
+        border-radius: 0.5rem;
+    }
+
+    .text-truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .table > tbody > tr:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+        transition: background-color 0.15s ease-in-out;
+    }
+
+    .card {
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .border-light {
+        border-color: rgba(0, 0, 0, 0.05) !important;
+    }
+
+    @@media (max-width: 768px) {
+        .table-responsive {
+            font-size: 0.875rem;
+        }
+
+        .avatar-sm {
+            width: 35px;
+            height: 35px;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+        }
+    }
+</style>
+
+<script>
+    // Tooltip'leri aktif et
+    document.addEventListener('DOMContentLoaded', function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>

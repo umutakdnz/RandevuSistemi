@@ -1,0 +1,48 @@
+﻿@* @model List<RandevuSistemi.Models.AdminSiniflar.Hairdresser> *@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    @* <div class="user-profile">
+        <div class="user-image">
+            <img src="~/regal-1.0.0/images/faces/face28.png" />
+        </div>
+        <div class="user-name">
+            Umut Akdeniz
+        </div>
+        <div class="user-designation">
+                Developer
+            </div>
+    </div> *@
+    <ul class="nav">
+        @* <li class="nav-item">
+            <a class="nav-link" href="/Statistics/">
+                <i class="icon-box menu-icon"></i>
+                <span class="menu-title">Anasayfa</span>
+            </a>
+        </li> *@
+        <li class="nav-item">
+            <a class="nav-link" href="/Appointments/">
+                <i class="icon-box menu-icon"></i>
+                <span class="menu-title">Randevular</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#reservationSettings" role="button" aria-expanded="false" aria-controls="reservationSettings">
+                <i class="icon-box menu-icon"></i>
+                <span class="menu-title">Randevu Ayarları</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="reservationSettings">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ReservationDays/">Randevu Günleri</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ReservationHours/">Randevu Saatleri</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ReservationDate/">Randevu Tarihleri</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</nav>

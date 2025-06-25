@@ -1,0 +1,59 @@
+﻿@model List<RandevuSistemi.Models.AdminSiniflar.AdminLogin>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="container">
+    <br /> <br />
+    <h2>Admin Giriş Bilgileri</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td>Kullanıcı Adı</td>
+                <td>Güncelle</td>
+                <td>Sil</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.username</td>
+                    <td><a href="/ALogin/UpdateALogin/@item.ID" class="btn btn-success">Güncelle</a></td>
+                    <td><button class="btn btn-danger" onclick="Delete(@item.ID)">Sil</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br /> <br />
+    <a href="/ALogin/CreateALogin/" class="btn btn-dark">Ekle</a>
+</div>
+
+<script>
+    function Delete(id) {
+        Swal.fire({
+            title: "Emin misin?",
+            text: "Dikkat bu işlemi geri alamazsınız!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Evet, silin!",
+            cancelButtonText: "İptal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Silindi!",
+                    text: "Veri silindi.",
+                    icon: "success",
+                    allowOutsideClick: false
+                }).then((result) => {
+                    window.location.href = '/ALogin/DeleteALogin/' + id;
+                });
+            }
+        });
+    }
+</script>
+

@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\regal-1.0.0\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\css\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\css\maps\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\fonts\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\fonts\karla\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\images\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\images\auth\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\images\faces\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\js\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\pages\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\pages\charts\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\pages\forms\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\pages\icons\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\pages\samples\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\pages\tables\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\pages\ui-features\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\partials\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\scss\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\scss\components\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\scss\components\plugin-overrides\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\scss\mixins\.DS_Store" />
+    <None Include="wwwroot\regal-1.0.0\vendors\.DS_Store" />
+    <None Include="wwwroot\sidebar-03\.DS_Store" />
+    <None Include="wwwroot\sidebar-03\css\.DS_Store" />
+    <None Include="wwwroot\sidebar-03\css\bootstrap\.DS_Store" />
+    <None Include="wwwroot\sidebar-03\css\bootstrap\mixins\.DS_Store" />
+    <None Include="wwwroot\sidebar-03\fonts\.DS_Store" />
+    <None Include="wwwroot\sidebar-03\images\.DS_Store" />
+    <None Include="wwwroot\sidebar-03\js\.DS_Store" />
+    <None Include="wwwroot\sidebar-03\scss\.DS_Store" />
+    <None Include="wwwroot\sidebar-03\scss\bootstrap\.DS_Store" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.14">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.14">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,33 @@
+﻿@model List<RandevuSistemi.Models.AdminSiniflar.Services>
+
+<section id="services" class="services section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Hizmetlerimiz</h2>
+        @foreach (var item in Model)
+        {
+            <p>@item.Description</p>
+        }
+    </div><!-- End Section Title -->
+
+    <div class="container">
+
+        <div class="row gy-4">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-item position-relative">
+                        <div class="icon"><i class="bi bi-activity icon"></i></div>
+                        <h4><a href="" class="stretched-link">@item.Title</a></h4>
+                        <p>@item.Description2</p>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</section>

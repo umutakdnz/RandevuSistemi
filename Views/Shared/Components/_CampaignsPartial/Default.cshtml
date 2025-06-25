@@ -1,0 +1,16 @@
+﻿@model List<RandevuSistemi.Models.AdminSiniflar.Campaigns>
+
+
+<div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+    <h3 class="resume-title">Kampanya Paketleri</h3>
+    @foreach (var item in Model)
+    {
+        <div class="resume-item">
+            <h4>@item.Title</h4>
+            <h5>@item.StartDate - @item.EndDate</h5>
+            <ul>
+                <li>@item.Description</li>
+            </ul>
+        </div>
+    }
+</div>

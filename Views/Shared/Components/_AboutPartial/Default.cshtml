@@ -1,0 +1,51 @@
+﻿@model List<RandevuSistemi.Models.AdminSiniflar.About>
+
+<section id="about" class="about section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Hakkımızda</h2>
+        <p>Enes Baykurt Hair Design ailesi olarak, sizi en iyi halinizle buluşturmak için buradayız.</p>
+    </div><!-- End Section Title -->
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        @foreach (var item in Model)
+        {
+            <div class="row gy-4 justify-content-center">
+                <div class="col-lg-4">
+                    <img src="@item.ImgUrl" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-8 content">
+                    <h2>@item.Title</h2>
+                    <p class="fst-italic py-3">
+                        @item.Description
+                    </p>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul>
+                                @* <li><i class="bi bi-chevron-right"></i> <strong>Kuruluş Yılı:</strong> <span>1 May 1995</span></li> *@
+                                <li><i class="bi bi-chevron-right"></i> <strong>Email:</strong> <span>@item.Email</span></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>Telefon Numrası:</strong> <span>@item.Phone</span></li>
+                                @* <li><i class="bi bi-chevron-right"></i> <strong>Adres:</strong> <span>New York, USA</span></li> *@
+                            </ul>
+                        </div>
+                        <div class="col-lg-6">
+                            <ul>
+                                <li><i class="bi bi-chevron-right"></i> <strong>Personel Sayısı:</strong> <span>@item.Person</span></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>Adres:</strong> <span>@item.Address</span></li>
+                                @* <li><i class="bi bi-chevron-right"></i> <strong>Email:</strong> <span>email@example.com</span></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>Freelance:</strong> <span>Available</span></li> *@
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="py-3">
+                        Salonumuzda, samimi bir atmosfer içinde kendinizi özel hissetmeniz ve tarzınızı özgürce yansıtmanız için çalışıyoruz. Saç kesimi, renklendirme, bakım ve profesyonel stil danışmanlığı gibi hizmetlerle güzelliğinize değer katıyoruz.
+                    </p>
+                </div>
+            </div>
+        }
+
+    </div>
+
+</section>

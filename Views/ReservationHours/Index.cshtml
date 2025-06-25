@@ -1,0 +1,354 @@
+﻿@model List<RandevuSistemi.Models.AdminSiniflar.ReservationHours>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/BarberLayout/Index.cshtml";
+
+    var dayOrder = new List<string> { "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar" };
+}
+
+<div class="page-header">
+    <h1 class="page-title">Randevu Saatleri</h1>
+</div>
+
+<div class="container">
+    <div class="table-header">
+        <div class="add-btn-container-top">
+            <a href="/ReservationHours/CreateReservationHours/" class="btn-add">
+                Yeni Saat Ekle
+            </a>
+        </div>
+    </div>
+    <div class="modern-card">
+        <div class="table-container">
+            @if (Model != null && Model.Any())
+            {
+                <table class="table modern-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Randevu Gün</th>
+                            <th>Saatler</th>
+                            <th>Durum</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var group in Model.GroupBy(m => new { m.ReservationDaysID, m.ReservationDays.DayName }).OrderBy(g => dayOrder.IndexOf(g.Key.DayName)))
+                        {
+                            <tr class="group-header-row">
+                                <td colspan="5" class="group-header">📅 @group.Key.DayName (ID: @group.Key.ReservationDaysID)</td>
+                            </tr>
+
+                            @foreach (var item in group.OrderBy(m => m.TimeSlot))
+                            {
+                                <tr>
+                                    <td><span class="id-badge">@item.ReservationHoursID</span></td>
+                                    <td><span class="barber-badge">@item.ReservationDays.DayName</span></td>
+                                    <td><span class="day-text">@item.TimeSlot</span></td>
+                                    <td><span class="day-text">@item.IsAvailable</span></td>
+                                    <td>
+                                        @* <a href="/ReservationHours/UpdateReservationHours/@item.ReservationHoursID" class="action-btn btn-update">
+                                            Güncelle
+                                        </a> *@
+                                        <button class="action-btn btn-delete" onclick="Delete(@item.ReservationHoursID)">Sil</button>
+                                    </td>
+                                </tr>
+                            }
+
+                            <tr class="group-separator-row"><td colspan="5"></td></tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="no-data-message">
+                    <div class="no-data-icon">📅</div>
+                    <h4>Kayıtlı Randevu Saati Bulunamadı</h4>
+                    <p>Henüz hiç randevu saati eklenmemiştir. Yeni bir saat eklemek için yukarıdaki butonu kullanabilirsiniz.</p>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function Delete(id) {
+        Swal.fire({
+            title: "Emin misin?",
+            text: "Dikkat bu işlemi geri alamazsınız!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Evet, eminim!",
+            cancelButtonText: "İptal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Silindi!",
+                    text: "Randevu saati silindi",
+                    icon: "success",
+                    allowOutsideClick: false
+                }).then((result) => {
+                    window.location.href = '/ReservationHours/DeleteReservationHours/' + id;
+                });
+            }
+        });
+    }
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    .page-header {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .page-title {
+        color: white;
+        font-size: 2.2rem;
+        font-weight: 300;
+        text-align: center;
+        margin: 0;
+        letter-spacing: 1px;
+    }
+
+    .modern-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        overflow: hidden;
+        border: 1px solid #e9ecef;
+    }
+
+    .table-container {
+        padding: 0;
+        overflow: hidden;
+        border-radius: 12px;
+    }
+
+    .modern-table {
+        margin: 0;
+        border: none;
+        background: transparent;
+    }
+
+        .modern-table thead {
+            background: #1a1a1a;
+        }
+
+            .modern-table thead th {
+                color: white;
+                font-weight: 500;
+                font-size: 0.9rem;
+                padding: 1.2rem 1rem;
+                border: none;
+                text-align: center;
+                letter-spacing: 0.5px;
+            }
+
+        .modern-table tbody tr {
+            border: none;
+            transition: background-color 0.2s ease;
+        }
+
+            .modern-table tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+
+            .modern-table tbody tr:nth-child(even) {
+                background-color: #fafafa;
+            }
+
+                .modern-table tbody tr:nth-child(even):hover {
+                    background-color: #f0f0f0;
+                }
+
+        .modern-table tbody td {
+            padding: 1rem;
+            border: none;
+            border-bottom: 1px solid #e9ecef;
+            text-align: center;
+            font-weight: 400;
+            color: #333;
+            vertical-align: middle;
+        }
+
+        .modern-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+    .action-btn {
+        padding: 0.5rem 1.2rem;
+        border-radius: 6px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.2s ease;
+        margin: 0 0.2rem;
+        font-size: 0.85rem;
+        border: 1px solid transparent;
+    }
+
+    .btn-update {
+        background: #2d2d2d;
+        color: white;
+        border-color: #2d2d2d;
+    }
+
+        .btn-update:hover {
+            background: #1a1a1a;
+            border-color: #1a1a1a;
+            color: white;
+            text-decoration: none;
+        }
+
+    .btn-delete {
+        background: transparent;
+        color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-delete:hover {
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+        }
+
+    .table-header {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 1rem;
+    }
+
+    .add-btn-container-top {
+        text-align: right;
+    }
+
+    .no-data-message {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #6c757d;
+    }
+
+    .no-data-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+
+    .no-data-message h4 {
+        color: #1a1a1a;
+        margin-bottom: 1rem;
+        font-weight: 500;
+    }
+
+    .no-data-message p {
+        margin: 0;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .btn-add {
+        background: #1a1a1a;
+        color: white;
+        padding: 0.8rem 2.5rem;
+        border-radius: 6px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.2s ease;
+        font-size: 1rem;
+        border: 1px solid #1a1a1a;
+    }
+
+        .btn-add:hover {
+            background: #2d2d2d;
+            border-color: #2d2d2d;
+            color: white;
+            text-decoration: none;
+        }
+
+    .id-badge {
+        background: #f8f9fa;
+        color: #1a1a1a;
+        padding: 0.3rem 0.7rem;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border: 1px solid #e9ecef;
+    }
+
+    .barber-badge {
+        background: #6c757d;
+        color: white;
+        padding: 0.3rem 0.7rem;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .day-text {
+        color: #1a1a1a;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    @@media (max-width: 768px) {
+        .page-title {
+            font-size: 1.8rem;
+        }
+
+        .modern-table thead th,
+        .modern-table tbody td {
+            padding: 0.8rem 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            margin: 0.1rem;
+            font-size: 0.75rem;
+        }
+
+        .table-header {
+            justify-content: center;
+        }
+
+        .btn-add {
+            padding: 0.7rem 2rem;
+            font-size: 0.9rem;
+        }
+
+        .no-data-message {
+            padding: 3rem 1rem;
+        }
+
+        .no-data-icon {
+            font-size: 3rem;
+        }
+    }
+
+    .group-header {
+        background-color: #f1f1f1;
+        font-weight: 600;
+        font-size: 1rem;
+        text-align: left;
+        padding: 1rem;
+        color: #333;
+        border-top: 2px solid #dee2e6;
+    }
+
+    .group-separator-row td {
+        height: 1.5rem;
+        background-color: transparent;
+        border: none;
+    }
+</style>
+

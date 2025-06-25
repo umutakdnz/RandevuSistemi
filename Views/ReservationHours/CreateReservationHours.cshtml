@@ -1,0 +1,369 @@
+﻿@model RandevuSistemi.Models.AdminSiniflar.ReservationHours
+@{
+    ViewData["Title"] = "CreateReservationHours";
+    Layout = "~/Views/BarberLayout/Index.cshtml";
+}
+
+
+<div class="page-header">
+    <h1 class="page-title">Yeni Randevu Saati Ekle</h1>
+</div>
+
+<div class="container">
+    <div class="form-card">
+        <form id="appointmentForm" method="post" asp-action="CreateReservationHours">
+            @* Sadece gerekli alanları gönder *@
+            <input type="hidden" name="BarberId" value="@ViewBag.BarberId" />
+
+            @* Debug için görünür alan (production'da kaldırılabilir) *@
+            <div class="form-group">
+                <label class="form-label">Berber ID (Otomatik)</label>
+                <input type="text" class="form-control modern-input" value="@ViewBag.BarberId" disabled />
+                <small class="form-text text-muted">Bu ID otomatik olarak atanmıştır.</small>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="ReservationDaysID">Randevu Günü <span class="required">*</span></label>
+                <select class="form-control modern-input" 
+                        name="ReservationDaysID" 
+                        id="ReservationDaysID" 
+                        required>
+                    <option value="">Bir gün seçin...</option>
+                    @if (ViewBag.ReservationDays != null)
+                    {
+                        @foreach (var day in ViewBag.ReservationDays as List<SelectListItem>)
+                        {
+                            <option value="@day.Value" selected="@day.Selected">@day.Text</option>
+                        }
+                    }
+                </select>
+                <small class="form-text text-muted">Sadece size ait randevu günleri gösterilmektedir.</small>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="TimeSlot">Randevu Saati <span class="required">*</span></label>
+                <input type="time"
+                       class="form-control modern-input"
+                       name="TimeSlot"
+                       id="TimeSlot"
+                       value="@(Model?.TimeSlot.ToString(@"hh\:mm") ?? "")"
+                       required
+                       min="08:00"
+                       max="20:00" />
+                <small class="form-text text-muted">Çalışma saatleri: 08:00 - 20:00 arası (15 dakika aralıklarla)</small>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="IsAvailable">Durum <span class="required">*</span></label>
+                <select class="form-control modern-input" 
+                        name="IsAvailable" 
+                        id="IsAvailable" 
+                        required>
+                    <option value="">Durum Seçin...</option>
+                    <option value="true" selected>Uygun</option>
+                    <option value="false">Dolu</option>
+                </select>
+                <small class="form-text text-muted">Randevu saatinin müsaitlik durumunu belirleyin.</small>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-plus"></i> Ekle
+                </button>
+                <a href="@Url.Action("Index", "ReservationHours")" class="btn-cancel">
+                    <i class="fas fa-times"></i> İptal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("appointmentForm");
+        const daySelect = document.getElementById("ReservationDaysID");
+        const timeInput = document.getElementById("TimeSlot");
+        const statusSelect = document.getElementById("IsAvailable");
+
+        // Form validasyonu
+        form.addEventListener("submit", function (e) {
+            const selectedDay = daySelect.value;
+            const selectedTime = timeInput.value;
+            const selectedStatus = statusSelect.value;
+
+            if (!selectedDay) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: "error",
+                    title: "Hata!",
+                    text: "Lütfen bir randevu günü seçin.",
+                    confirmButtonColor: "#1a1a1a"
+                });
+                daySelect.focus();
+                return;
+            }
+
+            if (!selectedTime) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: "error",
+                    title: "Hata!",
+                    text: "Lütfen randevu saatini girin.",
+                    confirmButtonColor: "#1a1a1a"
+                });
+                timeInput.focus();
+                return;
+            }
+
+            if (!selectedStatus) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: "error",
+                    title: "Hata!",
+                    text: "Lütfen durum seçin.",
+                    confirmButtonColor: "#1a1a1a"
+                });
+                statusSelect.focus();
+                return;
+            }
+
+            // Saat aralığı kontrolü
+            const time = selectedTime;
+            const [hours, minutes] = time.split(':').map(Number);
+            const totalMinutes = hours * 60 + minutes;
+            const minTime = 8 * 60; // 08:00
+            const maxTime = 20 * 60; // 20:00
+
+            if (totalMinutes < minTime || totalMinutes > maxTime) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: "error",
+                    title: "Hata!",
+                    text: "Randevu saati 08:00 - 20:00 arasında olmalıdır.",
+                    confirmButtonColor: "#1a1a1a"
+                });
+                timeInput.focus();
+                return;
+            }
+
+            // Başarılı form gönderimi için SweetAlert
+            e.preventDefault();
+
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Randevu saati eklendi",
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            // Form'u gerçekten gönder
+            setTimeout(() => {
+                form.submit();
+            }, 1500);
+        });
+
+        // Saati 15 dakika aralıklarla yuvarla
+        timeInput.addEventListener("change", function() {
+            const time = this.value;
+            if (time) {
+                const [hours, minutes] = time.split(':');
+                const roundedMinutes = Math.round(minutes / 15) * 15;
+                const formattedMinutes = roundedMinutes === 60 ? '00' : roundedMinutes.toString().padStart(2, '0');
+                const finalHours = roundedMinutes === 60 ? (parseInt(hours) + 1).toString().padStart(2, '0') : hours;
+                this.value = `${finalHours}:${formattedMinutes}`;
+            }
+        });
+
+        // Varsayılan durum "Uygun" olarak ayarla
+        if (!statusSelect.value && statusSelect.options.length > 1) {
+            statusSelect.value = "true";
+        }
+    });
+</script>
+
+<style>
+    .page-header {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .page-title {
+        color: white;
+        font-size: 2.2rem;
+        font-weight: 300;
+        text-align: center;
+        margin: 0;
+        letter-spacing: 1px;
+    }
+
+    .form-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        padding: 2.5rem;
+        border: 1px solid #e9ecef;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #1a1a1a;
+        font-weight: 500;
+        font-size: 0.95rem;
+        letter-spacing: 0.3px;
+    }
+
+    .required {
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    .modern-input {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        color: #333;
+        background-color: #fff;
+        transition: all 0.2s ease;
+    }
+
+        .modern-input:focus {
+            outline: none;
+            border-color: #2d2d2d;
+            box-shadow: 0 0 0 0.2rem rgba(45, 45, 45, 0.1);
+            background-color: #fafafa;
+        }
+
+        .modern-input::placeholder {
+            color: #999;
+            font-style: italic;
+        }
+
+    .form-text {
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+    }
+
+    .text-muted {
+        color: #6c757d;
+    }
+
+    .alert {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border-radius: 6px;
+        border: 1px solid transparent;
+    }
+
+    .alert-success {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+    }
+
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+
+    .alert p {
+        margin: 0;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .btn-submit {
+        background: #1a1a1a;
+        color: white;
+        padding: 0.8rem 2.5rem;
+        border-radius: 6px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+        font-size: 1rem;
+        border: 1px solid #1a1a1a;
+        cursor: pointer;
+    }
+
+        .btn-submit:hover {
+            background: #2d2d2d;
+            border-color: #2d2d2d;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+    .btn-cancel {
+        background: transparent;
+        color: #6c757d;
+        padding: 0.8rem 2.5rem;
+        border-radius: 6px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+        font-size: 1rem;
+        border: 1px solid #6c757d;
+    }
+
+        .btn-cancel:hover {
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+    @@media (max-width: 768px) {
+        .page-title {
+            font-size: 1.8rem;
+        }
+
+        .form-card {
+            padding: 1.5rem;
+            margin: 0 1rem;
+        }
+
+        .form-actions {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .btn-submit,
+        .btn-cancel {
+            padding: 0.7rem 2rem;
+            font-size: 0.9rem;
+            text-align: center;
+            justify-content: center;
+        }
+    }
+</style>
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">

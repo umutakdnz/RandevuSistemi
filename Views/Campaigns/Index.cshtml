@@ -1,0 +1,38 @@
+﻿@model List<RandevuSistemi.Models.AdminSiniflar.Campaigns>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Kampanyalar Sayfası</h1>
+
+<div class="container">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Kampanya Başlığı</th>
+                <th>Kampanya Açıklaması</th>
+                <th>Başlama Tarihi</th>
+                <th>Bitiş Tarihi</th>
+                <th>Güncelle</th>
+                <th>Sil</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.CampaignsId</td>
+                    <td>@item.Title</td>
+                    <td>@item.Description</td>
+                    <td>@item.StartDate</td>
+                    <td>@item.EndDate</td>
+                    <td><a href="/Campaigns/UpdateCampaigns/@item.CampaignsId" class="btn btn-success">Güncelle</a></td>
+                    <td><a href="/Campaigns/DeleteCampaigns/@item.CampaignsId" class="btn btn-danger">Sil</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a href="/Campaigns/CreateCampaigns/" class="btn btn-dark">Ekle</a>
+</div>

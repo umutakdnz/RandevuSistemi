@@ -1,0 +1,41 @@
+﻿@model List<RandevuSistemi.Models.AdminSiniflar.Messages>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Mesajlar</h1>
+
+<div class="container">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Adı - Soyadı</th>
+                <th>Email</th>
+                <th>Konu</th>
+                <th>Mesaj</th>
+                <th>Güncelle</th>
+                <th>Sil</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MessagesID</td>
+                    <td>@item.NameSurname</td>
+                    <td>@item.Mail</td>
+                    <td>@item.Subject</td>
+                    <td>@item.MessageContent</td>
+                    <td><a href="/Messages/UpdateMessages/@item.MessagesID" class="btn btn-success">Güncelle</a></td>
+                    <td><a href="/Messages/DeleteMessages/@item.MessagesID" class="btn btn-danger">Sil</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a href="/Messages/CreateMessages/" class="btn btn-dark">Ekle</a>
+
+</div>

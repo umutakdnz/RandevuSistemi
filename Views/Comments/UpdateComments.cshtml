@@ -1,0 +1,22 @@
+﻿@model RandevuSistemi.Models.AdminSiniflar.Comments
+@{
+    ViewData["Title"] = "UpdateComments";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Yorum Güncelleme Sayfası</h1>
+
+<form method="post">
+    @Html.HiddenFor(x => x.CommentsID)
+    <label>Açıklama</label>
+    @Html.TextBoxFor(x => x.Description1, new { @class = "form-control" }) <br />
+    <label>Ad - Soyad</label>
+    @Html.TextBoxFor(x => x.COmmentsName, new { @class = "form-control" }) <br />
+    <label>Yorum</label>
+    @Html.TextBoxFor(x => x.Description2, new { @class = "form-control" }) <br />
+    <label>Görsel</label>
+    @Html.TextBoxFor(x => x.ImageUrl, new { @class = "form-control" }) <br />
+    <label>Ünvan</label>
+    @Html.TextBoxFor(x => x.Title, new { @class = "form-control" }) <br />
+    <button class="btn btn-success">Güncelle</button>
+</form>

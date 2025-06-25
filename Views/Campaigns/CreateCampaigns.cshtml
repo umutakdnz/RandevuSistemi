@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "CreateCampaigns";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Kampanya Ekleme Sayfası</h1>
+
+<form method="post">
+    <label>Kampanya Başlığı</label>
+    <input type="text" class="form-control" name="Title" /> <br />
+    <label>Kampanya Açıklaması</label>
+    <input type="text" class="form-control" name="Description" /> <br />
+    <label>Başlama Tarihi</label>
+    <input type="text" class="form-control" name="StartDate" /> <br />
+    <label>Bitiş Tarihi</label>
+    <input type="text" class="form-control" name="EndDate" /> <br />
+    <button class="btn btn-success">Ekle</button>
+</form>

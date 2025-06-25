@@ -1,0 +1,45 @@
+﻿@model List<RandevuSistemi.Models.AdminSiniflar.Price>
+
+<section id="portfolio" class="portfolio section light-background">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Cut & Style</h2>
+        <p>
+            Enes Baykurt Hair Design olarak, saç ve sakal bakımında profesyonel hizmet sunuyoruz. Her stil, yüz hatlarınıza ve isteklerinize göre özelleştirilir. Saç kesimi, sakal tıraşı ve cilt bakımı ile sadece dış görünümünüzü değil, kendinizi de yenileyin.
+        </p> <br />
+        <p> Aşağıda, sunmuş olduğumuz bazı hizmetleri ve bakım örneklerini bulabilirsiniz. Her biri, profesyonel eller tarafından sizin için özel olarak uygulanmaktadır.</p>
+    </div><!-- End Section Title -->
+
+    <div class="container">
+
+        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+
+            @* <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
+                <li data-filter="*" class="filter-active">Tümü</li>
+                <li data-filter=".filter-app">1</li>
+                <li data-filter=".filter-product">2</li>
+                <li data-filter=".filter-branding">3</li>
+            </ul> *@
+
+            <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
+
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-@item.CategoryID">
+                        <img src="@item.Image1" class="img-fluid" alt="">
+                        <div class="portfolio-info">
+                            <h4>@item.PriceName</h4>
+                            <p>@item.Description</p>
+                            <a href="@item.Image1" title="@item.PriceName" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

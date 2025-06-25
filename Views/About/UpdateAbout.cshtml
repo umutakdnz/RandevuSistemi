@@ -1,0 +1,28 @@
+﻿@model RandevuSistemi.Models.AdminSiniflar.About
+@{
+    ViewData["Title"] = "UpdateAbout";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Hakkımda Güncelleme Sayfası</h1>
+
+<form method="post">
+    @Html.HiddenFor(x => x.AboutID)
+    <label>Resim Linki</label>
+    @Html.TextBoxFor(x => x.ImgUrl, new { @class = "form-control" }) <br />
+    <lable>Başlık</lable>
+    @Html.TextBoxFor(x => x.Title, new { @class = "form-control" }) <br />
+    <label>Açıklama</label>
+    @Html.TextBoxFor(x => x.Description, new { @class = "form-control" }) <br />
+    <label>Kuruluş Yılı</label>
+    @Html.TextBoxFor(x => x.FoundedYear, new { @class = "form-control" }) <br />
+    <label>Adres</label>
+    @Html.TextBoxFor(x => x.Address, new { @class = "form-control" }) <br />
+    <label>Telefon Numarası</label>
+    @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" }) <br />
+    <label>Email</label>
+    @Html.TextBoxFor(x => x.Email, new { @class = "form-control" }) <br />
+    <label>Personel Sayısı</label>
+    @Html.TextBoxFor(x => x.Person, new { @class = "form-control" }) <br />
+    <button class="btn btn-success">Güncelle</button>
+</form>

@@ -1,0 +1,18 @@
+﻿@model RandevuSistemi.Models.AdminSiniflar.HomePage
+@{
+    ViewData["Title"] = "UpdateHomePage";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Anasayfa Bilgileri Güncelleme</h1>
+
+<form method="post">
+    @Html.HiddenFor(x => x.HomePageID)
+    <label>Başlık</label>
+    @Html.TextBoxFor(x => x.NameSurname, new { @class = "form-control" }) <br />
+    <label>Açıklama</label>
+    @Html.TextBoxFor(x => x.Description, new { @class = "form-control" }) <br />
+    <label>Görsel</label>
+    @Html.TextBoxFor(x => x.ImageUrl, new { @class = "form-control" }) <br />
+    <button class="btn btn-success">Güncelle</button>
+</form>

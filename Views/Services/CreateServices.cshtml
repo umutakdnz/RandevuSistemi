@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "CreateServices";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Hizmet Ekleme Sayfası</h1>
+
+<form method="post">
+    <label>Açıklama</label>
+    <input type="text" class="form-control" name="Description" /> <br />
+    <label>Hizmet Adı</label>
+    <input type="text" class="form-control" name="Title" /> <br />
+    <label>Simge</label>
+    <input type="text" class="form-control" name="IconUrl" /> <br />
+    <label>Açıklama-2</label>
+    <input type="text" class="form-control" name="Description2" /> <br />
+    <button class="btn btn-success">Ekle</button>
+</form>

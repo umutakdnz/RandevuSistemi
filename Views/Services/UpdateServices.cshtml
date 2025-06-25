@@ -1,0 +1,20 @@
+﻿@model RandevuSistemi.Models.AdminSiniflar.Services
+@{
+    ViewData["Title"] = "UpdateServices";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>Hizmet Güncelleme Sayfası</h1>
+
+<form method="post">
+    @Html.HiddenFor(x => x.ServicesID)
+    <label>Açıklama</label>
+    @Html.TextBoxFor(x => x.Description, new { @class = "form-control" }) <br />
+    <label>Hizmet Adı</label>
+    @Html.TextBoxFor(x => x.Title, new { @class = "form-control" }) <br />
+    <label>Simge</label>
+    @Html.TextBoxFor(x => x.IconUrl, new { @class = "form-control" }) <br />
+    <label>Açıklama-2</label>
+    @Html.TextBoxFor(x => x.Description2, new { @class = "form-control" }) <br />
+    <button class="btn btn-success">Güncelle</button>
+</form>

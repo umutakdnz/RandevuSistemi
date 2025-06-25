@@ -1,0 +1,299 @@
+﻿
+@{
+    ViewData["Title"] = "CreateReservationDays";
+    Layout = "~/Views/BarberLayout/Index.cshtml";
+}
+
+<div class="page-header">
+    <h1 class="page-title">Yeni Randevu Günü Ekle</h1>
+</div>
+
+<div class="container">
+    <div class="form-card">
+        @* Hata mesajlarını göster *@
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                @foreach (var modelError in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <p>@modelError.ErrorMessage</p>
+                }
+            </div>
+        }
+
+        @* Hata mesajını göster *@
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+        <form id="appointmentForm" method="post" asp-action="CreateReservationDays">
+            @* Sadece gerekli alanları gönder *@
+            <input type="hidden" name="BarberId" value="@ViewBag.BarberId" />
+
+            @* Debug için görünür alan (production'da kaldırılabilir) *@
+            <div class="form-group">
+                <label class="form-label">Berber ID (Otomatik)</label>
+                <input type="text" class="form-control modern-input" value="@ViewBag.BarberId" disabled />
+                <small class="form-text text-muted">Bu ID otomatik olarak atanmıştır.</small>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="DayName">Randevu Günü <span class="required">*</span></label>
+                <input type="text"
+                       class="form-control modern-input"
+                       name="DayName"
+                       id="DayName"
+                       placeholder="Örn: Pazartesi, Salı..."
+                       required
+                       maxlength="50" />
+                <small class="form-text text-muted">Randevu alınabilecek günün adını girin.</small>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-plus"></i> Ekle
+                </button>
+                <a href="@Url.Action("Index", "ReservationDays")" class="btn-cancel">
+                    <i class="fas fa-times"></i> İptal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("appointmentForm");
+        const dayNameInput = document.getElementById("DayName");
+
+        // Form validasyonu
+        form.addEventListener("submit", function (e) {
+            const dayName = dayNameInput.value.trim();
+
+            if (!dayName) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: "error",
+                    title: "Hata!",
+                    text: "Lütfen gün adını girin.",
+                    confirmButtonColor: "#1a1a1a"
+                });
+                dayNameInput.focus();
+                return;
+            }
+
+            // Başarılı form gönderimi için SweetAlert
+            e.preventDefault();
+
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Randevu Günü Eklendi!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            // Form'u gerçekten gönder
+            setTimeout(() => {
+                form.submit();
+            }, 1500);
+        });
+
+        // Gün adı inputu için karakter sınırlaması
+        dayNameInput.addEventListener("input", function() {
+            this.value = this.value.replace(/[^a-zA-ZğüşıöçĞÜŞIÖÇ\s]/g, '');
+        });
+    });
+</script>
+
+<style>
+    .page-header {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .page-title {
+        color: white;
+        font-size: 2.2rem;
+        font-weight: 300;
+        text-align: center;
+        margin: 0;
+        letter-spacing: 1px;
+    }
+
+    .form-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        padding: 2.5rem;
+        border: 1px solid #e9ecef;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #1a1a1a;
+        font-weight: 500;
+        font-size: 0.95rem;
+        letter-spacing: 0.3px;
+    }
+
+    .required {
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    .modern-input {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        color: #333;
+        background-color: #fff;
+        transition: all 0.2s ease;
+    }
+
+        .modern-input:focus {
+            outline: none;
+            border-color: #2d2d2d;
+            box-shadow: 0 0 0 0.2rem rgba(45, 45, 45, 0.1);
+            background-color: #fafafa;
+        }
+
+        .modern-input::placeholder {
+            color: #999;
+            font-style: italic;
+        }
+
+    .form-text {
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+    }
+
+    .text-muted {
+        color: #6c757d;
+    }
+
+    .alert {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border-radius: 6px;
+        border: 1px solid transparent;
+    }
+
+    .alert-success {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+    }
+
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+
+    .alert p {
+        margin: 0;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .btn-submit {
+        background: #1a1a1a;
+        color: white;
+        padding: 0.8rem 2.5rem;
+        border-radius: 6px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+        font-size: 1rem;
+        border: 1px solid #1a1a1a;
+        cursor: pointer;
+    }
+
+        .btn-submit:hover {
+            background: #2d2d2d;
+            border-color: #2d2d2d;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+    .btn-cancel {
+        background: transparent;
+        color: #6c757d;
+        padding: 0.8rem 2.5rem;
+        border-radius: 6px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+        font-size: 1rem;
+        border: 1px solid #6c757d;
+    }
+
+        .btn-cancel:hover {
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+    @@media (max-width: 768px) {
+        .page-title
+
+    {
+        font-size: 1.8rem;
+    }
+
+    .form-card {
+        padding: 1.5rem;
+        margin: 0 1rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .btn-submit,
+    .btn-cancel {
+        padding: 0.7rem 2rem;
+        font-size: 0.9rem;
+        text-align: center;
+        justify-content: center;
+    }
+
+    }
+</style>
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">

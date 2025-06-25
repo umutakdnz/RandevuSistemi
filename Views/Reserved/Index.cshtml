@@ -1,0 +1,365 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+<div class="randevu-wrapper">
+    <div class="randevu-container">
+        <h2>Randevu Al</h2>
+
+        <form class="space-y-6" id="appointmentForm" method="post">
+            <input type="hidden" name="selectedDate" id="selectedDateInput" />
+
+            <div class="form-group">
+                <div class="name-phone-container">
+                    <div class="name-phone-wrapper">
+                        <label>Ad Soyad</label>
+                        <input type="text" name="NameSurname" placeholder="Adınızı ve Soyadınızı girin" required />
+                    </div>
+                    <div class="name-phone-wrapper">
+                        <label>Telefon Numarası</label>
+                        <input type="tel" name="PhoneNo" placeholder="05xx xxx xx xx" required />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Berber Seçimi</label>
+                <select name="BarberID" required>
+                    <option value="" disabled selected>Berber seçiniz</option>
+                    @foreach (var barber in (SelectList)ViewBag.BarberList)
+                    {
+                        <option value="@barber.Value">@barber.Text</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Tarih Seçimi</label>
+                <select name="ReservationDaysID" id="dayDropdown" required disabled>
+                    <option value="">Lütfen önce berber seçin</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Saat Seçimi</label>
+                <select name="ReservationHoursID" id="hourDropdown" required disabled>
+                    <option value="">Lütfen önce tarih seçin</option>
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label>Açıklama</label>
+                <textarea class="form-control" name="Description" placeholder="Varsa özel isteklerinizi yazın..." oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"></textarea>
+            </div>
+
+            <div>
+                <button type="submit" class="submit-button">Randevu Al</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("appointmentForm");
+        const nameInput = form.querySelector("input[name='NameSurname']");
+        const phoneInput = form.querySelector("input[name='PhoneNo']");
+        const barberSelect = form.querySelector("select[name='BarberID']");
+        const daySelect = document.getElementById("dayDropdown");
+        const hourSelect = document.getElementById("hourDropdown");
+
+        phoneInput.disabled = true;
+        barberSelect.disabled = true;
+
+        nameInput.addEventListener("input", () => {
+            if (nameInput.value.trim() !== "") {
+                phoneInput.disabled = false;
+            } else {
+                phoneInput.disabled = true;
+                barberSelect.disabled = true;
+                daySelect.disabled = true;
+                hourSelect.disabled = true;
+            }
+        });
+
+        phoneInput.addEventListener("input", () => {
+            if (phoneInput.value.trim() !== "") {
+                barberSelect.disabled = false;
+            } else {
+                barberSelect.disabled = true;
+                daySelect.disabled = true;
+                hourSelect.disabled = true;
+            }
+        });
+
+        barberSelect.addEventListener("change", function () {
+            const barberId = this.value;
+            daySelect.innerHTML = '<option value="">Yükleniyor...</option>';
+            daySelect.disabled = true;
+            hourSelect.innerHTML = '<option value="">Lütfen önce gün seçin</option>';
+            hourSelect.disabled = true;
+
+            // Tarih + gün formatında seçenekleri getir
+            fetch(`/Reserved/GetReservationDates?barberId=${barberId}`)
+                .then(response => response.json())
+                .then(data => {
+                    daySelect.innerHTML = '<option value="">Gün seçiniz</option>';
+                    data.forEach(dateOption => {
+                        const option = document.createElement("option");
+                        option.value = dateOption.reservationDaysID;
+                        option.textContent = dateOption.displayText;
+                        option.setAttribute('data-date', dateOption.date);
+                        daySelect.appendChild(option);
+                    });
+                    daySelect.disabled = false;
+                });
+        });
+
+        daySelect.addEventListener("change", function () {
+            const dayId = this.value;
+            const selectedOption = this.options[this.selectedIndex];
+            const selectedDate = selectedOption.getAttribute('data-date');
+
+            // Hidden field'a seçilen tarihi ata
+            document.getElementById('selectedDateInput').value = selectedDate;
+
+            hourSelect.innerHTML = '<option value="">Yükleniyor...</option>';
+            hourSelect.disabled = true;
+
+            let url = `/Reserved/GetHoursByDay?dayId=${dayId}`;
+            if (selectedDate) {
+                url += `&selectedDate=${selectedDate}`;
+            }
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    hourSelect.innerHTML = '<option value="">Saat seçiniz</option>';
+                    if (data.length === 0) {
+                        hourSelect.innerHTML = '<option value="">Bu gün için müsait saat yok</option>';
+                    } else {
+                        data.forEach(hour => {
+                            const option = document.createElement("option");
+                            option.value = hour.reservationHoursID;
+                            option.textContent = hour.timeSlot;
+                            hourSelect.appendChild(option);
+                        });
+                        hourSelect.disabled = false;
+                    }
+                });
+        });
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Randevunuz alındı!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            setTimeout(() => {
+                form.submit();
+            }, 1500);
+        });
+    });
+</script>
+
+<style>
+    :root {
+        --primary-color: #4a90e2;
+        --secondary-color: #6a5acd;
+        --text-color: #2c3e50;
+        --background-color: #f4f7f6;
+        --card-background: #ffffff;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        background: linear-gradient(135deg, var(--background-color) 0%, #ffffff 100%);
+        line-height: 1.6;
+        color: var(--text-color);
+    }
+
+    .randevu-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 2rem;
+    }
+
+    .randevu-container {
+        width: 100%;
+        max-width: 900px;
+        background-color: var(--card-background);
+        padding: 3rem;
+        border-radius: 16px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    }
+
+        .randevu-container h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+            .randevu-container h2::after {
+                content: '';
+                position: absolute;
+                bottom: -10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80px;
+                height: 4px;
+                background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+                border-radius: 2px;
+            }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+    .name-phone-container {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .name-phone-wrapper {
+        flex: 1;
+    }
+
+    .datetime-container {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .datetime-wrapper {
+        flex: 1;
+    }
+
+    .custom-date-input,
+    .custom-time-input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e0e7ff;
+        border-radius: 10px;
+        font-size: 1rem;
+        outline: none;
+        transition: all 0.3s ease;
+        background-color: #f9fafb;
+        appearance: none;
+        position: relative;
+        cursor: pointer;
+    }
+
+        .custom-date-input:focus,
+        .custom-time-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        }
+
+        .custom-date-input::before,
+        .custom-time-input::before {
+            content: '📅';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .custom-time-input::before {
+            content: '⏰';
+        }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e0e7ff;
+        border-radius: 10px;
+        font-size: 1rem;
+        outline: none;
+        transition: all 0.3s ease;
+        background-color: #f9fafb;
+    }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        }
+
+    .form-group textarea {
+        resize: vertical;
+        min-height: 35px;
+    }
+
+    .submit-button {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #ffffff;
+        background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 10px 20px rgba(74, 144, 226, 0.2);
+    }
+
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(74, 144, 226, 0.3);
+        }
+
+    @@media (max-width: 768px) {
+        .randevu-container
+
+    {
+        padding: 2rem;
+        margin: 1rem;
+    }
+
+    .randevu-container h2 {
+        font-size: 1.8rem;
+    }
+
+    .name-phone-container,
+    .datetime-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    }
+</style>

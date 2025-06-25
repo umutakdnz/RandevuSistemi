@@ -1,0 +1,20 @@
+﻿@model RandevuSistemi.Models.AdminSiniflar.Contact
+@{
+    ViewData["Title"] = "UpdateContact";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<h1>İleteşim Güncelleme Sayfası</h1>
+
+<form method="post">
+    @Html.HiddenFor(x => x.ContactID)
+    <label>Açıklama</label>
+    @Html.TextBoxFor(x => x.Description, new { @class = "form-control" }) <br />
+    <label>Adres</label>
+    @Html.TextBoxFor(x => x.Adress, new { @class = "form-control" }) <br />
+    <label>Email</label>
+    @Html.TextBoxFor(x => x.Email, new { @class = "form-control" }) <br />
+    <labe>Phone</labe>
+    @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" }) <br />
+    <button class="btn btn-success">Güncelle</button>
+</form>

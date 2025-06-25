@@ -1,0 +1,132 @@
+﻿@model RandevuSistemi.Models.AdminSiniflar.CustomerComment
+@{
+    ViewData["Title"] = "UpdateCustomerComment";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2 class="fw-bold text-dark mb-0">Yorumu Güncelle</h2>
+            <p class="text-muted">Önceki yorumunuzu düzenleyebilirsiniz.</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="/CustomerComment/Index" class="btn btn-outline-secondary px-4 rounded-pill shadow-sm">
+                <i class="fa fa-arrow-left me-2"></i>Yorumlara Dön
+            </a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-body p-4">
+            <form id="updateForm" method="post">
+                @Html.HiddenFor(a => a.CustomerCommentID)
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="CustomerName" class="form-label fw-medium text-dark">Ad - Soyad</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0">
+                                <i class="fa fa-user text-muted"></i>
+                            </span>
+                            @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control border-start-0 ps-0", @placeholder = "Ad ve soyadınızı güncelleyin" })
+                        </div>
+                    </div>
+
+                    @* <div class="col-md-6 mb-3">
+                        <label for="Title" class="form-label fw-medium text-dark">Yorum Yapılan Berber</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0">
+                                <i class="fa fa-cut text-muted"></i>
+                            </span>
+                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control border-start-0 ps-0", @placeholder = "Berber adını güncelleyin" })
+                        </div>
+                    </div> *@
+
+                    <div class="col-md-6 mb-3">
+                        <label for="Title" class="form-label fw-medium text-dark">Yorum Yapılan Berber</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0">
+                                <i class="fa fa-cut text-muted"></i>
+                            </span>
+                            @Html.DropDownListFor(x => x.BarberId, (SelectList)ViewBag.BarberList, "Berber seçin", new { @class = "form-control border-start-0 ps-0" })
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mb-4">
+                    <label for="Description" class="form-label fw-medium text-dark">Yorumunuz</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0 align-items-start pt-2">
+                            <i class="fa fa-comment text-muted"></i>
+                        </span>
+                        @Html.TextAreaFor(x => x.Description, new { @class = "form-control border-start-0 ps-0", @rows = "5", @placeholder = "Yorumunuzu güncelleyin", @id = "Description" })
+                    </div>
+                    <div class="form-text text-end"><span id="charCount">0</span>/500 karakter</div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <div class="text-muted small">
+                        <i class="fa fa-clock me-1"></i> Son güncelleme: @DateTime.Now.ToString("dd.MM.yyyy HH:mm")
+                    </div>
+                    <div>
+                        <a href="/CustomerComment/Index" class="btn btn-outline-secondary me-2">İptal</a>
+                        <button type="submit" class="btn btn-primary px-4 rounded-pill shadow-sm">
+                            <i class="fa fa-save me-2"></i>Değişiklikleri Kaydet
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("updateForm");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Değişiklikler kaydedildi!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            setTimeout(() => {
+                form.submit();
+            }, 1500);
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const textarea = document.getElementById('Description');
+        const charCount = document.getElementById('charCount');
+
+        // Sayfa yüklendiğinde mevcut karakter sayısını güncelle
+        const updateCharCount = function() {
+            const length = textarea.value.length;
+            charCount.textContent = length;
+
+            if (length > 500) {
+                charCount.classList.add('text-danger');
+                charCount.classList.add('fw-bold');
+            } else {
+                charCount.classList.remove('text-danger');
+                charCount.classList.remove('fw-bold');
+            }
+        };
+
+        // Sayfa yüklendiğinde
+        updateCharCount();
+
+        // Textarea değiştiğinde
+        textarea.addEventListener('input', updateCharCount);
+    });
+</script>
